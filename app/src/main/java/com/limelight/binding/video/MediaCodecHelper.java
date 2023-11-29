@@ -125,7 +125,10 @@ public class MediaCodecHelper {
         blacklistedAdaptivePlaybackPrefixes.add("omx.intel");
         // The MediaTek decoder crashes at 1080p when adaptive playback is enabled
         // on some Android TV devices with HEVC only.
-        blacklistedAdaptivePlaybackPrefixes.add("omx.mtk");
+
+        // test allowing adaptive playback on 'fire tv stick 4k max 2023' and 'fire tv stick 4k 2023'
+        LimeLog.info("TESTING ALLOW ADAPTIVE PLAYBACK ON omx.mtk");
+        //blacklistedAdaptivePlaybackPrefixes.add("omx.mtk");
 
         constrainedHighProfilePrefixes = new LinkedList<>();
         constrainedHighProfilePrefixes.add("omx.intel");
