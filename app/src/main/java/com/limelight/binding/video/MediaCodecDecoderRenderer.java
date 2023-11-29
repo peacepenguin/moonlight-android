@@ -488,7 +488,8 @@ public class MediaCodecDecoderRenderer extends VideoDecoderRenderer implements C
             // rather than us hardcoding them into the MediaFormat.
             if (getActiveVideoFormat() != MoonBridge.VIDEO_FORMAT_H265_MAIN10) {
                 // Set color format keys when not in HDR mode, since we know they won't change
-                videoFormat.setInteger(MediaFormat.KEY_COLOR_TRANSFER, MediaFormat.COLOR_TRANSFER_SDR_VIDEO);
+                //force to zero for testing if this reflects mode under vpud
+                videoFormat.setInteger(MediaFormat.KEY_COLOR_TRANSFER, 0);
                 switch (getPreferredColorSpace()) {
                     case MoonBridge.COLORSPACE_REC_601:
                         videoFormat.setInteger(MediaFormat.KEY_COLOR_STANDARD, MediaFormat.COLOR_STANDARD_BT601_NTSC);
