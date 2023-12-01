@@ -1,5 +1,7 @@
 package com.limelight.binding.video;
 
+import static com.limelight.binding.audio.AndroidAudioRenderer.MoonAudioSessionID;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -529,6 +531,12 @@ public class MediaCodecHelper {
             // https://github.com/yuan1617/Framwork/blob/master/frameworks/av/media/libstagefright/ACodec.cpp
             // https://github.com/iykex/vendor_mediatek_proprietary_hardware/blob/master/libomx/video/MtkOmxVdecEx/MtkOmxVdecEx.h
             videoFormat.setInteger("vdec-lowlatency", 1);
+
+
+            //videoFormat.setFeatureEnabled(MediaCodecInfo.CodecCapabilities.FEATURE_TunneledPlayback, true);
+
+            videoFormat.setInteger(MediaFormat.KEY_AUDIO_SESSION_ID, MoonAudioSessionID);
+
             setNewOption = true;
         }
 

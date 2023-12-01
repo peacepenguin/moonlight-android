@@ -25,7 +25,17 @@ public class AndroidAudioRenderer implements AudioRenderer {
         this.enableAudioFx = enableAudioFx;
     }
 
+    public static int MoonAudioSessionID;
+
+    public int createMoonAudioSessionID(){
+        AudioManager audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
+        MoonAudioSessionID = audioManager.generateAudioSessionId();
+
+        return MoonAudioSessionID;
+    }
+
     private AudioTrack createAudioTrack(int channelConfig, int sampleRate, int bufferSize, boolean lowLatency) {
+        createMoonAudioSessionID();
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
             return new AudioTrack(AudioManager.STREAM_MUSIC,
                     sampleRate,
@@ -55,7 +65,8 @@ public class AndroidAudioRenderer implements AudioRenderer {
                         .setAudioFormat(format)
                         .setAudioAttributes(attributesBuilder.build())
                         .setTransferMode(AudioTrack.MODE_STREAM)
-                        .setBufferSizeInBytes(bufferSize);
+                        .setBufferSizeInBytes(bufferSize)
+                        .setSessionId(MoonAudioSessionID);
 
                 // Use PERFORMANCE_MODE_LOW_LATENCY on O and later
                 if (lowLatency) {
@@ -69,7 +80,7 @@ public class AndroidAudioRenderer implements AudioRenderer {
                         format,
                         bufferSize,
                         AudioTrack.MODE_STREAM,
-                        AudioManager.AUDIO_SESSION_ID_GENERATE);
+                        MoonAudioSessionID);
             }
         }
     }
@@ -184,6 +195,9 @@ public class AndroidAudioRenderer implements AudioRenderer {
 
                 // Successfully created working AudioTrack. We're done here.
                 LimeLog.info("Audio track configuration: "+bufferSize+" "+lowLatency);
+                LimeLog.info("Actual Audio sessionid:      "+track.getAudioSessionId());
+                LimeLog.info("MoonAudioSessionID variable: "+MoonAudioSessionID);
+
                 break;
             } catch (Exception e) {
                 // Try to release the AudioTrack if we got far enough
