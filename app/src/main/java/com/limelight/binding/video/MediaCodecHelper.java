@@ -533,7 +533,7 @@ public class MediaCodecHelper {
             videoFormat.setInteger("vdec-lowlatency", 1);
 
 
-            //videoFormat.setFeatureEnabled(MediaCodecInfo.CodecCapabilities.FEATURE_TunneledPlayback, true);
+            videoFormat.setFeatureEnabled(MediaCodecInfo.CodecCapabilities.FEATURE_TunneledPlayback, true);
 
             videoFormat.setInteger(MediaFormat.KEY_AUDIO_SESSION_ID, MoonAudioSessionID);
 

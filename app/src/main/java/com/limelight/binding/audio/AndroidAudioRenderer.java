@@ -61,6 +61,7 @@ public class AndroidAudioRenderer implements AudioRenderer {
             }
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                attributesBuilder.setFlags(AudioAttributes.FLAG_HW_AV_SYNC);
                 AudioTrack.Builder trackBuilder = new AudioTrack.Builder()
                         .setAudioFormat(format)
                         .setAudioAttributes(attributesBuilder.build())
