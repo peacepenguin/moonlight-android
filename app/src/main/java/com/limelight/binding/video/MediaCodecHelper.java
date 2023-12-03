@@ -125,7 +125,7 @@ public class MediaCodecHelper {
         blacklistedAdaptivePlaybackPrefixes.add("omx.intel");
         // The MediaTek decoder crashes at 1080p when adaptive playback is enabled
         // on some Android TV devices with HEVC only.
-        blacklistedAdaptivePlaybackPrefixes.add("omx.mtk");
+        // blacklistedAdaptivePlaybackPrefixes.add("omx.mtk");
 
         constrainedHighProfilePrefixes = new LinkedList<>();
         constrainedHighProfilePrefixes.add("omx.intel");
