@@ -13,6 +13,9 @@ import com.limelight.LimeLog;
 import com.limelight.nvstream.av.audio.AudioRenderer;
 import com.limelight.nvstream.jni.MoonBridge;
 
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
+
 public class AndroidAudioRenderer implements AudioRenderer {
 
     private final Context context;
@@ -222,16 +225,27 @@ public class AndroidAudioRenderer implements AudioRenderer {
 
     @Override
     public void playDecodedAudio(short[] audioData) {
+        // Convert short array to byte array (assuming 16-bit PCM)
+        ByteBuffer byteBuffer = ByteBuffer.allocate(audioData.length * 2);
+        byteBuffer.order(ByteOrder.LITTLE_ENDIAN);
+        for (short sample : audioData) {
+            byteBuffer.putShort(sample);
+        }
+        byteBuffer.flip();
+
+        // Write the audio data to the AudioTrack with timestamp
+        track.write(byteBuffer, byteBuffer.remaining(), AudioTrack.WRITE_NON_BLOCKING);
+
         // Only queue up to 40 ms of pending audio data in addition to what AudioTrack is buffering for us.
-        if (MoonBridge.getPendingAudioDuration() < 40) {
+        //if (MoonBridge.getPendingAudioDuration() < 40) {
             // This will block until the write is completed. That can cause a backlog
             // of pending audio data, so we do the above check to be able to bound
             // latency at 40 ms in that situation.
-            track.write(audioData, 0, audioData.length);
-        }
-        else {
-            LimeLog.info("Too much pending audio data: " + MoonBridge.getPendingAudioDuration() +" ms");
-        }
+            //track.write(audioData, 0, audioData.length);
+        //}
+        //else {
+            //LimeLog.info("Too much pending audio data: " + MoonBridge.getPendingAudioDuration() +" ms");
+        //}
     }
 
     @Override
