@@ -29,10 +29,12 @@ public class AndroidAudioRenderer implements AudioRenderer {
     }
 
     public static int MoonAudioSessionID;
+    public static long MoonAudioStartTS;
 
     public int createMoonAudioSessionID(){
         AudioManager audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
         MoonAudioSessionID = audioManager.generateAudioSessionId();
+        MoonAudioStartTS = System.nanoTime();
 
         return MoonAudioSessionID;
     }
@@ -64,7 +66,12 @@ public class AndroidAudioRenderer implements AudioRenderer {
             }
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                attributesBuilder.setFlags(AudioAttributes.FLAG_HW_AV_SYNC);
+                LimeLog.info("Audio track format: "+format);
+                LimeLog.info("Audio buffer size: "+bufferSize);
+                LimeLog.info("Audio track attributes: "+attributesBuilder.build());
+                attributesBuilder.setFlags(AudioAttributes.FLAG_HW_AV_SYNC)
+                        .setContentType(AudioAttributes.CONTENT_TYPE_MOVIE) // this may not be necessary
+                        .setUsage(AudioAttributes.USAGE_GAME);
                 AudioTrack.Builder trackBuilder = new AudioTrack.Builder()
                         .setAudioFormat(format)
                         .setAudioAttributes(attributesBuilder.build())
@@ -234,7 +241,7 @@ public class AndroidAudioRenderer implements AudioRenderer {
         byteBuffer.flip();
 
         // Write the audio data to the AudioTrack with timestamp
-        track.write(byteBuffer, byteBuffer.remaining(), AudioTrack.WRITE_NON_BLOCKING);
+        track.write(byteBuffer, byteBuffer.remaining(), AudioTrack.WRITE_NON_BLOCKING, System.nanoTime() - MoonAudioStartTS);
 
         // Only queue up to 40 ms of pending audio data in addition to what AudioTrack is buffering for us.
         //if (MoonBridge.getPendingAudioDuration() < 40) {
