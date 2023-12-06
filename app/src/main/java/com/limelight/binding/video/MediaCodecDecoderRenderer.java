@@ -29,6 +29,7 @@ import android.media.MediaFormat;
 import android.media.MediaCodec.BufferInfo;
 import android.media.MediaCodec.CodecException;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.Process;
@@ -1229,8 +1230,9 @@ public class MediaCodecDecoderRenderer extends VideoDecoderRenderer implements C
 
     @Override
     public void start() {
-        startRendererThread();
-        startChoreographerThread();
+        // startRendererThread();
+        // startChoreographerThread();
+        LimeLog.info("TUNNEL: not starting choreographer or renderer");
     }
 
     // !!! May be called even if setup()/start() fails !!!
@@ -1593,7 +1595,7 @@ public class MediaCodecDecoderRenderer extends VideoDecoderRenderer implements C
                 // Patch the SPS constraint flags
                 doProfileSpecificSpsPatching(sps);
 
-                // The H264Utils.writeSPS function safely handles
+                // The H264Utils.writeSPS function safely handlesT
                 // Annex B NALUs (including NALUs with escape sequences)
                 ByteBuffer escapedNalu = H264Utils.writeSPS(sps, decodeUnitLength);
 
