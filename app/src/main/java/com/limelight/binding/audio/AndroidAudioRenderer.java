@@ -1,5 +1,6 @@
 package com.limelight.binding.audio;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.media.AudioAttributes;
@@ -31,6 +32,7 @@ public class AndroidAudioRenderer implements AudioRenderer {
     public static int MoonAudioSessionID;
     public static long MoonAudioStartTS;
 
+    @SuppressLint("NewApi")
     public int createMoonAudioSessionID(){
         AudioManager audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
         MoonAudioSessionID = audioManager.generateAudioSessionId();
