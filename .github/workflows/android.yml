@@ -16,7 +16,14 @@ jobs:
     
     - name: Checkout submodules
       run: git submodule update --init --recursive
-      
+
+    - uses: gradle/gradle-build-action@v2
+      id: setup-gradle
+      with:
+        gradle-version: current
+    - run: gradle build
+    - run: echo "Gradle version used for build was ${{ steps.setup-gradle.outputs.gradle-version }}"
+
     - name: set up JDK
       uses: actions/setup-java@v3
       with:
@@ -29,13 +36,4 @@ jobs:
       with:
         ndk-version: r26b
         add-to-path: true
-            
-
-    - uses: gradle/gradle-build-action@v2
-      id: setup-gradle
-      with:
-        gradle-version: 8.1.2
-    - run: gradle build
-    - run: echo "Gradle version used for build was ${{ steps.setup-gradle.outputs.gradle-version }}"
-
 
