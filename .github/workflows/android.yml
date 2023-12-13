@@ -17,19 +17,19 @@ jobs:
     - name: Checkout submodules
       run: git submodule update --init --recursive
 
-    - uses: gradle/gradle-build-action@v2
-      id: setup-gradle
-      with:
-        gradle-version: current
-    - run: gradle build
-    - run: echo "Gradle version used for build was ${{ steps.setup-gradle.outputs.gradle-version }}"
-
     - name: set up JDK
       uses: actions/setup-java@v3
       with:
         java-version: '17'
         distribution: 'temurin'
         cache: gradle
+        
+    - uses: gradle/gradle-build-action@v2
+      id: setup-gradle
+      with:
+        gradle-version: current
+    - run: gradle build
+    - run: echo "Gradle version used for build was ${{ steps.setup-gradle.outputs.gradle-version }}"
         
     - name: Setup Android NDK
       uses: nttld/setup-ndk@v1.4.2
