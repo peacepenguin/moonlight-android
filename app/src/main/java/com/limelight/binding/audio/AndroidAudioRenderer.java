@@ -232,6 +232,7 @@ public class AndroidAudioRenderer implements AudioRenderer {
         return 0;
     }
 
+    @SuppressLint("NewApi")
     @Override
     public void playDecodedAudio(short[] audioData) {
         // Convert short array to byte array (assuming 16-bit PCM)
