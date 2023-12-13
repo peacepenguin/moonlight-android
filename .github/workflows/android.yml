@@ -2,9 +2,9 @@ name: Android CI
 
 on:
   push:
-    branches: [ "tunnelmode" ]
+    branches: [ "peacepenguin-patch-1" ]
   pull_request:
-    branches: [ "tunnelmode" ]
+    branches: [ "peacepenguin-patch-1" ]
 
 jobs:
   build:
