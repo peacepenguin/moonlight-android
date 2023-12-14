@@ -28,13 +28,18 @@ jobs:
       with:
         ndk-version: r26b
         add-to-path: true
-        
-    - uses: gradle/gradle-build-action@v2
+
+    - name: setup gradle current
+      uses: gradle/gradle-build-action@v2
       id: setup-gradle
       with:
         gradle-version: current
-    - run: gradle build
-    - run: echo "Gradle version used for build was ${{ steps.setup-gradle.outputs.gradle-version }}"
+
+    - name: create apk with gradle
+      run: gradle assembleRelease
+
+    - name: echo the gradle version
+      run: echo "Gradle version used for build was ${{ steps.setup-gradle.outputs.gradle-version }}"
         
 
 
