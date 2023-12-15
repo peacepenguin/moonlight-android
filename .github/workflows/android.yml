@@ -41,5 +41,10 @@ jobs:
     - name: echo the gradle version
       run: echo "Gradle version used for build was ${{ steps.setup-gradle.outputs.gradle-version }}"
         
-
+    - name: Releasing using Hub
+      uses: r0user/release-apk@main
+      env:
+       GITHUB_TOKEN: ${{ secrets.TOKEN }}
+       APP_FOLDER: app
+       
 
