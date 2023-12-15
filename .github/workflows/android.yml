@@ -26,7 +26,8 @@ jobs:
             echo $ENCODED_STRING | base64 -di > "${TMP_KEYSTORE_FILE_PATH}"/apk-signing-key01.jks
             KEYSTOREFILE="${TMP_KEYSTORE_FILE_PATH}"/apk-signing-key01.jks
             echo $KEYSTOREFILE
-            export KEYSTOREFILE
+            #export KEYSTOREFILE
+            echo "KEYSTOREFILE=$KEYSTOREFILE" >> $GITHUB_ENV
     
     - name: checkout current repo code
       uses: actions/checkout@v3
@@ -56,7 +57,7 @@ jobs:
         cache-read-only: false
 
     - name: create apk with gradle
-      run: gradle :app:assembleNonRootRelease -Pandroid.injected.signing.store.file=$KEYSTOREFILE -Pandroid.injected.signing.store.password=${{secrets.SIGNING_STORE_PASSWORD}} -Pandroid.injected.signing.key.alias=${{secrets.SIGNING_KEY_ALIAS}} -Pandroid.injected.signing.key.password=${{secrets.SIGNING_KEY_PASSWORD}}
+      run: gradle :app:assembleNonRootRelease -Pandroid.injected.signing.store.file=${{env.KEYSTOREFILE}} -Pandroid.injected.signing.store.password=${{secrets.SIGNING_STORE_PASSWORD}} -Pandroid.injected.signing.key.alias=${{secrets.SIGNING_KEY_ALIAS}} -Pandroid.injected.signing.key.password=${{secrets.SIGNING_KEY_PASSWORD}}
       
     #- name: list app folder, all files -a, list -l, and recursively -R
     #  run: ls app -laR
