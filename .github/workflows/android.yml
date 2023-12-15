@@ -1,10 +1,14 @@
 name: Android CI
 
-on:
-  push:
-    branches: [ "tunnelmode" ]
-  pull_request:
-    branches: [ "tunnelmode" ]
+# manual only:
+on: workflow_dispatch
+
+# on any push to specific branches:
+#on:
+#  push:
+#    branches: [ "tunnelmode" ]
+#  pull_request:
+#    branches: [ "tunnelmode" ]
 
 jobs:
   build:
@@ -36,15 +40,5 @@ jobs:
         gradle-version: current
 
     - name: create apk with gradle
-      run: gradle assembleRelease
-
-    - name: echo the gradle version
-      run: echo "Gradle version used for build was ${{ steps.setup-gradle.outputs.gradle-version }}"
-        
-    - name: Releasing using Hub
-      uses: r0user/release-apk@main
-      env:
-       GITHUB_TOKEN: ${{ secrets.TOKEN }}
-       APP_FOLDER: app
-       
+      run: gradle :app:assembleNonRootRelease
 
