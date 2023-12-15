@@ -43,4 +43,6 @@ jobs:
 
     - name: create apk with gradle
       run: gradle :app:assembleNonRootRelease
-
+      
+    - name: list app folder, all files -a, list -l, and recursively -R
+      run: ls -laR
