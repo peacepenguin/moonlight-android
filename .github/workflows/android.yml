@@ -27,6 +27,7 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
         
+        
     - name: Setup Android NDK
       uses: nttld/setup-ndk@v1.4.2
       with:
@@ -38,6 +39,7 @@ jobs:
       id: setup-gradle
       with:
         gradle-version: current
+        cache-read-only: false
 
     - name: create apk with gradle
       run: gradle :app:assembleNonRootRelease
