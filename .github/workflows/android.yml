@@ -61,3 +61,10 @@ jobs:
       
     #- name: list app folder, all files -a, list -l, and recursively -R
     #  run: ls app -laR
+
+    - name: Upload
+      uses: actions/upload-artifact@v2
+      with:
+        name: Build Artifacts
+        path: app/build/outputs/apk/nonRoot/release/
+
