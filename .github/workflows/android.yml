@@ -66,5 +66,18 @@ jobs:
       uses: actions/upload-artifact@v4.0.0
       with:
         name: Build Artifacts
-        path: app/build/outputs/apk/nonRoot/release/
-
+        path: app/build/outputs/apk/nonRoot/release/app-nonRoot-release.apk
+  
+    - name: Upload to Release Action
+      # You may pin to the exact commit or the version.
+      # uses: Shopify/upload-to-release@c77c9b3e5d288adaef98a7007bf92340ec6ce03b
+      uses: Shopify/upload-to-release@v2.0.0
+      with:
+        # Artifact name
+        name: moonlight-android-ci-apk
+        # Path to the file to upload
+        path: app/build/outputs/apk/nonRoot/release/app-nonRoot-release.apk
+        # Content type for the file
+        # optional, default is application/octet-stream
+        content-type: application/octet-stream
+        repo-token: secrets.GITHUB_TOKEN
