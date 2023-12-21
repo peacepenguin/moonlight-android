@@ -4,11 +4,16 @@ name: Android CI
 # on: workflow_dispatch
 
 # on any push to specific branches:
+#on:
+#  push:
+#    branches: [ "tunnelmode" ]
+#  pull_request:
+#    branches: [ "tunnelmode" ]
+
 on:
   push:
-    branches: [ "tunnelmode" ]
-  pull_request:
-    branches: [ "tunnelmode" ]
+    tags:
+      - "v*.*.*"
 
 jobs:
   build:
@@ -67,10 +72,11 @@ jobs:
       with:
         name: Build Artifacts
         path: app/build/outputs/apk/nonRoot/release/app-nonRoot-release.apk
+    
     - name: Release
       uses: softprops/action-gh-release@v1
-      # only release if the workflow is triggered with an associated tag:
-      # if: startsWith(github.ref, 'refs/tags/')
+      # only release if the workflow is triggered with an associated tag, tags are required for github releases, disable if using tags to trigger the workflow
+      #if: startsWith(github.ref, 'refs/tags/')
       with:
         files: |
           app/build/outputs/apk/nonRoot/release/app-nonRoot-release.apk
