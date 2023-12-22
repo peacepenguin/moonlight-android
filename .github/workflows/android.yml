@@ -13,7 +13,7 @@ name: Android CI
 on:
   push:
     tags:
-      - "v*.*.*"
+      - "*"
 
 jobs:
   build:
